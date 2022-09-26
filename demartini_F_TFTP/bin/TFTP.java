@@ -26,6 +26,12 @@ class TFTP {
 
     public void sendPacket() {
 
+        byte[] sendBuf = new byte[500];
+
+        
+
+
+
     }
 
     public void recevePacket() {
