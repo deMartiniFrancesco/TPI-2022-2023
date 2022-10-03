@@ -14,7 +14,7 @@ public class TftpDataPacket extends TftpPacket {
 
     public TftpDataPacket(byte[] bytePacket) {
         super(bytePacket);
-        block = 
+        block = 0;
 
 
     }

@@ -21,8 +21,7 @@ public class Main {
 
         tftp.sendPacket(new TftpFileRequestPackage(
                 PacketMode.OCTET,
-                "filecorto"
-        ));
+                "filecorto"));
         tftp.receivePacket();
 
         System.out.println("End");
