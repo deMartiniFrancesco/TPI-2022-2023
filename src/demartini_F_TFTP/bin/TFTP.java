@@ -1,67 +1,41 @@
 package demartini_F_TFTP.bin;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Arrays;
 
 
 class TFTP {
 
-    private InetAddress ip;
+    private InetAddress ipTarget;
     private int port;
     private DatagramSocket socket;
-    private final PacketType packetType;
-    private final PacketMode packetMode;
-    private String fileName;
 
-    public TFTP(String ipTarget, int port, PacketType packetType, PacketMode packetMode, String filename) {
+
+    public TFTP(InetAddress ipTarget, int port) {
         try {
-            ip = InetAddress.getByName(ipTarget);
+            this.ipTarget = ipTarget;
             this.port = port;
             socket = new DatagramSocket();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
-        this.packetType = packetType;
-        this.packetMode = packetMode;
-        this.fileName = filename;
     }
 
-    public TFTP(String ipTarget, int port, PacketType packetType, PacketMode packetMode) {
+    public void sendPacket(TftpPacket packet) {
         try {
-            ip = InetAddress.getByName(ipTarget);
-            this.port = port;
-            socket = new DatagramSocket();
+            socket.send(new DatagramPacket(
+                    packet.bytePacket,
+                    packet.bytePacket.length,
+                    ipTarget,
+                    port
+            ));
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(1);
         }
-        this.packetType = packetType;
-        this.packetMode = packetMode;
-    }
-
-    public void sendPacket() {
-        if (fileName != null) {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(512);
-            outputStream.writeBytes(packetType.getBytes());
-            outputStream.writeBytes(fileName.getBytes());
-            outputStream.write(0);
-            outputStream.writeBytes(packetMode.getBytes());
-            outputStream.write(0);
-
-            byte[] sendBuf = outputStream.toByteArray();
-
-            try {
-                socket.send(new DatagramPacket(sendBuf, sendBuf.length, ip, port));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("sendBuf = " + Arrays.toString(outputStream.toByteArray()));
-        }
+        System.out.println("packet = " + packet);
     }
 
     public void receivePacket() {
@@ -69,33 +43,12 @@ class TFTP {
         try {
             socket.receive(new DatagramPacket(
                     receiveBuff,
-                    receiveBuff.length,
-                    socket.getInetAddress(),
-                    socket.getLocalPort()
+                    receiveBuff.length
             ));
-            System.out.println("TFTP.receivePacket");
+            System.out.println("receiveBuff = " + new String(receiveBuff, 0, receiveBuff.length));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("receiveBuff = " + new String(receiveBuff));
-
-
-    }
-
-
-}
-
-class TFTPTest {
-    public static void main(String[] args) {
-
-        System.out.println("Start");
-
-        TFTP tftp = new TFTP("172.16.1.99", 69, PacketType.RRQ, PacketMode.OCTET, "filecorto");
-
-        tftp.sendPacket();
-        tftp.receivePacket();
-
-        System.out.println("End");
-
+        System.out.println("TFTP.receivePacket");
     }
 }

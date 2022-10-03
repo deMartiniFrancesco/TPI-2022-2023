@@ -7,15 +7,23 @@ public enum PacketType {
     ACK(4),
     ERROR(5);
 
-    private final byte[] packetTypeBytes = new byte[2];
+    private final int packetType;
 
     PacketType(int packetTypeInt) {
 
-        packetTypeBytes[0] = (byte) packetTypeInt;
-        packetTypeBytes[1] = (byte) (packetTypeInt >>> 8);
+        packetType = packetTypeInt;
     }
 
-    public byte[] getBytes() {
-        return packetTypeBytes;
+    public int getPacketType() {
+        return packetType;
+    }
+
+    public static PacketType findByValue(int intType){
+        for(PacketType packetType : values()){
+            if( packetType.getPacketType() == intType){
+                return packetType;
+            }
+        }
+        return null;
     }
 }
