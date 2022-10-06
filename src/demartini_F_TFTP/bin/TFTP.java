@@ -1,9 +1,13 @@
 package demartini_F_TFTP.bin;
 
+import demartini_F_TFTP.bin.packages.TftpDataPacket;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 
 class TFTP {
@@ -38,17 +42,32 @@ class TFTP {
         System.out.println("packet = " + packet);
     }
 
-    public void receivePacket() {
+    public TftpPacket receivePacket() {
         byte[] receiveBuff = new byte[512];
         try {
             socket.receive(new DatagramPacket(
                     receiveBuff,
                     receiveBuff.length
             ));
-            System.out.println("receiveBuff = " + new String(receiveBuff, 0, receiveBuff.length));
+
+            PacketType type = PacketType.findByValue(
+                    ByteBuffer.wrap(
+                            Utility.toIntegerLength(Arrays.copyOfRange(receiveBuff, 0, 2)
+                            )
+                    ).getInt());
+            ;
+            if (type != null) {
+                System.out.println("TFTP.receivePacket");
+                return switch (type) {
+                    case DATA -> new TftpDataPacket(receiveBuff);
+                    default -> null;
+                };
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("TFTP.receivePacket");
+        return null;
     }
 }

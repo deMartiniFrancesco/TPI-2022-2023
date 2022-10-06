@@ -34,11 +34,11 @@ public class TftpFileRequestPackage extends TftpPacket {
 
     @Override
     public String toString() {
-        return "TftpFileRequest{" +
-                "fileName='" + fileName + '\'' +
-                ", bytePacket=" + Arrays.toString(bytePacket) +
-                ", packetType=" + packetType +
-                ", packetMode=" + packetMode +
-                '}';
+        return "TftpFileRequestPackage{" +
+                "\n\tpacketType=" + packetType +
+                ",\n\tpacketMode=" + packetMode +
+                ",\n\tfileName='" + fileName + '\'' +
+                ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
+                "\n}";
     }
 }
