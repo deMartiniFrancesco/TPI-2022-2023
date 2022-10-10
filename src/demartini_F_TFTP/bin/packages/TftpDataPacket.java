@@ -27,7 +27,7 @@ public class TftpDataPacket extends TftpPacket {
 
     @Override
     public String toString() {
-        return "TftpDataPacket{" +
+        return "MTSRegistrationSuccess{" +
                 "\n\tpacketType=" + packetType +
                 ",\n\tblock=" + block +
                 ",\n\tdata=" + Arrays.toString(data) +

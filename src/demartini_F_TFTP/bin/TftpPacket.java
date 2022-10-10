@@ -23,7 +23,7 @@ public abstract class TftpPacket {
 
     @Override
     public String toString() {
-        return "TftpPacket{" +
+        return "MTSPacket{" +
                 "packetType=" + packetType +
                 ", bytePacket=" + Arrays.toString(bytePacket) +
                 '}';

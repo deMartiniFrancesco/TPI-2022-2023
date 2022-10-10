@@ -34,7 +34,7 @@ public class TftpFileRequestPackage extends TftpPacket {
 
     @Override
     public String toString() {
-        return "TftpFileRequestPackage{" +
+        return "MSCFileRequestPackage{" +
                 "\n\tpacketType=" + packetType +
                 ",\n\tpacketMode=" + packetMode +
                 ",\n\tfileName='" + fileName + '\'' +
