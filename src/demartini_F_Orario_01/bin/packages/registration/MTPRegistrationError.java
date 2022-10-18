@@ -1,24 +1,24 @@
 package demartini_F_Orario_01.bin.packages.registration;
 
 import demartini_F_Orario_01.bin.PacketOperationCode;
-import demartini_F_Orario_01.bin.packages.MTSPacket;
+import demartini_F_Orario_01.bin.packages.MTPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-public class MTSRegistrationError extends MTSPacket {
+public class MTPRegistrationError extends MTPPacket {
 
-    public MTSRegistrationError() {
+    public MTPRegistrationError() {
         super(PacketOperationCode.REG_ERROR);
         super.bytePacket = getBytePacket();
     }
 
-    public MTSRegistrationError(byte[] bytePacket) {
+    public MTPRegistrationError(byte[] bytePacket) {
         super(Arrays.copyOfRange(bytePacket, 0, 1 + Integer.BYTES));
     }
 
     @Override
-    public byte[] getBytePacket(){
+    public byte[] getBytePacket() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
         outputStream.writeBytes(new byte[4]);

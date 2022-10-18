@@ -1,9 +1,9 @@
 package demartini_F_Orario_01.bin;
 
-import demartini_F_Orario_01.bin.packages.MTSPacket;
-import demartini_F_Orario_01.bin.packages.registration.MTSRegistrationError;
-import demartini_F_Orario_01.bin.packages.registration.MTSRegistrationRequest;
-import demartini_F_Orario_01.bin.packages.registration.MTSRegistrationSuccess;
+import demartini_F_Orario_01.bin.packages.MTPPacket;
+import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationError;
+import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
+import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -12,14 +12,14 @@ import java.net.InetAddress;
 import java.util.Arrays;
 
 
-class MTS {
+class MTP {
 
     private InetAddress ipTarget;
     private int port;
     private DatagramSocket socket;
 
 
-    public MTS(InetAddress ipTarget, int port) {
+    public MTP(InetAddress ipTarget, int port) {
         try {
             this.ipTarget = ipTarget;
             this.port = port;
@@ -30,7 +30,7 @@ class MTS {
         }
     }
 
-    public void sendPacket(MTSPacket packet) {
+    public void sendPacket(MTPPacket packet) {
         try {
             socket.send(new DatagramPacket(
                     packet.bytePacket,
@@ -44,7 +44,7 @@ class MTS {
         System.out.println("packet = " + packet);
     }
 
-    public MTSPacket receivePacket() {
+    public MTPPacket receivePacket() {
         byte[] receiveBuff = new byte[32];
         try {
             socket.receive(new DatagramPacket(
@@ -53,13 +53,12 @@ class MTS {
             ));
 
             PacketOperationCode type = PacketOperationCode.findByValue(receiveBuff[0]);
-            ;
             if (type != null) {
                 System.out.println("MTS.receivePacket");
                 return switch (type) {
-                    case REQ_REGISTRAZIONE -> new MTSRegistrationRequest(receiveBuff);
-                    case REG_SUCCESS -> new MTSRegistrationSuccess(receiveBuff);
-                    case REG_ERROR -> new MTSRegistrationError(receiveBuff);
+                    case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveBuff);
+                    case REG_SUCCESS -> new MTPRegistrationSuccess(receiveBuff);
+                    case REG_ERROR -> new MTPRegistrationError(receiveBuff);
                     default -> null;
                 };
             }

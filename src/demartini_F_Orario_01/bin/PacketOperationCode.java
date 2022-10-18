@@ -21,10 +21,6 @@ public enum PacketOperationCode {
         operationCode = packetTypeInt;
     }
 
-    public int getOperationCode() {
-        return operationCode;
-    }
-
     public static PacketOperationCode findByValue(int intType) {
         for (PacketOperationCode packetOperationCode : values()) {
             if (packetOperationCode.getOperationCode() == intType) {
@@ -33,4 +29,8 @@ public enum PacketOperationCode {
         }
         return null;
     }
+
+    public int getOperationCode() {
+        return operationCode;
     }
+}

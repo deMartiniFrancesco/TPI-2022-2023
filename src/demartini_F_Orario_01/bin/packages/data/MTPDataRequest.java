@@ -1,29 +1,31 @@
-package demartini_F_Orario_01.bin.packages.registration;
+package demartini_F_Orario_01.bin.packages.data;
 
 import demartini_F_Orario_01.bin.PacketOperationCode;
-import demartini_F_Orario_01.bin.packages.MTSPacket;
+import demartini_F_Orario_01.bin.Utility;
+import demartini_F_Orario_01.bin.packages.MTPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class MTSRegistrationSuccess extends MTSPacket {
+public class MTPDataRequest extends MTPPacket {
     private final int uuid;
 
-    public MTSRegistrationSuccess(int uuid) {
-        super(PacketOperationCode.REG_SUCCESS);
+
+    public MTPDataRequest(PacketOperationCode operationCode, int uuid) {
+        super(operationCode);
         this.uuid = uuid;
         super.bytePacket = getBytePacket();
     }
 
-    public MTSRegistrationSuccess(byte[] bytePacket) {
-        super(Arrays.copyOfRange(bytePacket, 0, 1 + Integer.BYTES));
-        uuid = new BigInteger(Arrays.copyOfRange(super.bytePacket, 1 ,  super.bytePacket.length)).intValue();
+    public MTPDataRequest(byte[] bytePacket) {
+        super(Utility.trim(bytePacket));
+        uuid = new BigInteger(Arrays.copyOfRange(super.bytePacket, 1, 1 + Integer.BYTES)).intValue();
     }
 
     @Override
-    public byte[] getBytePacket(){
+    public byte[] getBytePacket() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
         outputStream.writeBytes(ByteBuffer.allocate(Integer.BYTES).putInt(uuid).array());
@@ -33,11 +35,10 @@ public class MTSRegistrationSuccess extends MTSPacket {
 
     @Override
     public String toString() {
-        return "MTSRegistrationSuccess{" +
+        return "MTSDataRequest{" +
                 "\n\toperationCode=" + operationCode +
                 ",\n\tuuid=" + uuid +
                 ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
                 "\n}";
     }
-
 }

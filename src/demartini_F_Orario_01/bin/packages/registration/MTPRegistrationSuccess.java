@@ -1,27 +1,25 @@
-package demartini_F_Orario_01.bin.packages.data;
+package demartini_F_Orario_01.bin.packages.registration;
 
 import demartini_F_Orario_01.bin.PacketOperationCode;
-import demartini_F_Orario_01.bin.Utility;
-import demartini_F_Orario_01.bin.packages.MTSPacket;
+import demartini_F_Orario_01.bin.packages.MTPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class MTSDataRequest extends MTSPacket {
+public class MTPRegistrationSuccess extends MTPPacket {
     private final int uuid;
 
-
-    public MTSDataRequest(PacketOperationCode operationCode, int uuid) {
-        super(operationCode);
+    public MTPRegistrationSuccess(int uuid) {
+        super(PacketOperationCode.REG_SUCCESS);
         this.uuid = uuid;
         super.bytePacket = getBytePacket();
     }
 
-    public MTSDataRequest(byte[] bytePacket) {
-        super(Utility.trim(bytePacket));
-        uuid = new BigInteger(Arrays.copyOfRange(super.bytePacket, 1 ,  1 + Integer.BYTES)).intValue();
+    public MTPRegistrationSuccess(byte[] bytePacket) {
+        super(Arrays.copyOfRange(bytePacket, 0, 1 + Integer.BYTES));
+        uuid = new BigInteger(Arrays.copyOfRange(super.bytePacket, 1, super.bytePacket.length)).intValue();
     }
 
     @Override
@@ -35,10 +33,11 @@ public class MTSDataRequest extends MTSPacket {
 
     @Override
     public String toString() {
-        return "MTSDataRequest{" +
+        return "MTSRegistrationSuccess{" +
                 "\n\toperationCode=" + operationCode +
                 ",\n\tuuid=" + uuid +
                 ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
                 "\n}";
     }
+
 }
