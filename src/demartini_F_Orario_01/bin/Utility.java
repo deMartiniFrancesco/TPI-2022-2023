@@ -3,6 +3,7 @@ package demartini_F_Orario_01.bin;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Utility {
 
@@ -29,5 +30,9 @@ public class Utility {
         int i = bytes.length - 1;
         while (i >= 0 && bytes[i] == 0) --i;
         return Arrays.copyOf(bytes, i + 1);
+    }
+
+    public static int nextNonNegative() {
+        return Math.abs(new Random().nextInt());
     }
 }

@@ -30,6 +30,10 @@ public class MTPRegistrationRequest extends MTPPacket {
         return outputStream.toByteArray();
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "MTSRegistrationRequest{" +

@@ -7,7 +7,7 @@ import java.util.Arrays;
 public abstract class MTPPacket {
 
     protected final PacketOperationCode operationCode;
-    public byte[] bytePacket;
+    protected byte[] bytePacket;
 
     public MTPPacket(PacketOperationCode packetOperationCode) {
         this.operationCode = packetOperationCode;
@@ -18,10 +18,13 @@ public abstract class MTPPacket {
         operationCode = PacketOperationCode.findByValue(bytePacket[0]);
     }
 
-    public byte[] getBytePacket() {
-        return new byte[0];
+    public PacketOperationCode getOperationCode() {
+        return operationCode;
     }
 
+    public byte[] getBytePacket() {
+        return bytePacket;
+    }
 
     @Override
     public String toString() {
