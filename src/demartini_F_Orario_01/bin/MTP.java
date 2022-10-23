@@ -1,111 +1,103 @@
 package demartini_F_Orario_01.bin;
 
-import demartini_F_Orario_01.bin.packages.MTPPacket;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationError;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
-import demartini_F_Orario_01.bin.providers.RegistrationProviders;
+import demartini_F_Orario_01.bin.connections.ConnectionReceivedEvent;
+import demartini_F_Orario_01.bin.connections.ServerAccept;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+public abstract class MTP {
+    protected final ExecutorService es = Executors.newCachedThreadPool();
+    protected final int port;
+    protected Socket activeConnectionSocket;
+    protected ServerSocket listener;
+    protected boolean isConnected = false;
+    protected DataInputStream inputStream = null;
+    protected DataOutputStream outputStream = null;
 
-class MTP {
-
-    private InetAddress ipTarget;
-    private int port;
-    private DatagramSocket socket;
-
-    private DatagramPacket targetPacket;
-
-    public MTP(InetAddress ipTarget, int port) {
-        try {
-            this.ipTarget = ipTarget;
-            this.port = port;
-            socket = new DatagramSocket();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
-    public MTP(DatagramSocket socket) {
-        this.socket = socket;
-    }
-
-    public void setIpTarget(InetAddress ipTarget) {
-        this.ipTarget = ipTarget;
-    }
-
-    public void setPort(int port) {
+    protected MTP(int port) {
         this.port = port;
+        startListening();
     }
 
-    public void sendPacket(MTPPacket packet) {
-        try {
-            socket.send(new DatagramPacket(
-                    packet.getBytePacket(),
-                    packet.getBytePacket().length,
-                    ipTarget,
-                    port
-            ));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    public void startListening() {
+        if (!isConnected) {
+            System.out.println("MTP.startListening");
+            closeIfNotNull();
+            listener = createListeningSocket();
+            es.execute(new ServerAccept(listener, this::peerToPeer));
         }
-        System.out.println("packet = " + packet);
     }
 
-    public MTPPacket receivePacket() {
-        byte[] receiveBuff = new byte[32];
-        try {
-            targetPacket = new DatagramPacket(
-                    receiveBuff,
-                    receiveBuff.length
-            );
-            socket.receive(targetPacket);
-            System.out.printf("Client address: %s, port: %s%n", targetPacket.getAddress(), targetPacket.getPort());
+    protected void peerToPeer(ConnectionReceivedEvent event) {
+        setAccepted(event.getSocket());
+    }
 
-            PacketOperationCode type = PacketOperationCode.findByValue(receiveBuff[0]);
-            if (type != null) {
-                return switch (type) {
-                    case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveBuff);
-                    case REG_SUCCESS -> new MTPRegistrationSuccess(receiveBuff);
-                    case REG_ERROR -> new MTPRegistrationError(receiveBuff);
-                    default -> null;
-                };
+
+    protected void setAccepted(Socket socket) {
+        if (!isConnected) {
+            System.out.printf("Accept address: %s:%s%n", socket.getInetAddress(), socket.getLocalPort());
+            this.activeConnectionSocket = socket;
+            try {
+                setUpStreams(socket);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        } else {
+            System.out.println("Error");
+//            sendError(socket);
+        }
+    }
+
+    protected void setUpStreams(Socket socket) throws IOException {
+        this.outputStream = new DataOutputStream(socket.getOutputStream());
+        this.outputStream.flush();
+        this.inputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+        System.out.println("Connection accept");
+    }
 
 
+    public void connect(InetAddress targetAddress, int targetPort) {
+        isConnected = true;
+        try {
+            activeConnectionSocket = new Socket(targetAddress, targetPort);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+        try {
+            listener.close();
+        } catch (IOException e) {
+            // this will almost certainly throw an exception, but it is intended.
+        }
     }
 
-    public void responsePacket(MTPPacket packet) {
-        if (targetPacket == null){
-            throw new RuntimeException();
+    protected void closeIfNotNull() {
+        if (listener != null) {
+            try {
+                listener.close();
+            } catch (IOException e) {
+                // this will almost certainly throw an exception, but it is intended.
+            }
         }
-        setIpTarget(targetPacket.getAddress());
-        setPort(targetPacket.getPort());
-
-        MTPPacket response = switch (packet.getOperationCode()){
-            case REQ_REGISTRAZIONE -> RegistrationProviders.evaluateRequest((MTPRegistrationRequest) packet);
-            default -> null;
-        };
-
-        if (response == null){
-            System.out.println("MTP.responsePacket FAIL!\n" +
-                    "packet - " + packet + "\n"
-            );
-            return;
-        }
-        targetPacket = null;
-        sendPacket(response);
     }
 
+    protected ServerSocket createListeningSocket() {
 
-
+        ServerSocket temp = null;
+        try {
+            temp = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
 }

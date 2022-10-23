@@ -1,9 +1,9 @@
-package demartini_F_Orario_01.bin;
+package demartini_F_Orario_01.bin.main;
 
+import demartini_F_Orario_01.bin.MTPClient;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 
 public class Client {
     public static void main(String[] args) {
@@ -17,10 +17,10 @@ public class Client {
             e.printStackTrace();
         }
 
-        MTP MTP = new MTP(ipTarget, 1234);
+        MTPClient mtpClient = new MTPClient(12345);
 
-        MTP.sendPacket(new MTPRegistrationRequest("Nico"));
-        System.out.println(MTP.receivePacket());
+        mtpClient.connect(ipTarget, 1234);
+        mtpClient.sendPacket(new MTPRegistrationRequest("deMartini"));
 
         System.out.println("End");
 
