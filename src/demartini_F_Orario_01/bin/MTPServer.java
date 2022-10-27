@@ -7,6 +7,8 @@ import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * The type Mtp server.
@@ -38,13 +40,14 @@ public class MTPServer extends MTP {
     public MTPPacket receivePacket() {
         if (isConnected) {
             try {
-                byte[] receiveBuff = inputStream.readAllBytes();
-                PacketOperationCode type = PacketOperationCode.findByValue(receiveBuff[0]);
+                int dataType = inputStream.readByte();
+                System.out.println("dataString = " + dataString);
+                PacketOperationCode type = PacketOperationCode.findByValue(dataType);
                 if (type != null) {
                     return switch (type) {
-                        case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveBuff);
-                        case REG_SUCCESS -> new MTPRegistrationSuccess(receiveBuff);
-                        case REG_ERROR -> new MTPRegistrationError(receiveBuff);
+                        case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveData);
+                        case REG_SUCCESS -> new MTPRegistrationSuccess(receiveData);
+                        case REG_ERROR -> new MTPRegistrationError(receiveData);
                         default -> null;
                     };
                 }
