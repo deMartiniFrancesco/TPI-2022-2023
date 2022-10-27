@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__autor__ = "Francesco"
+__author__ = "Francesco"
 __version__ = "0101 2021/11/04"
 
 import os
@@ -10,10 +10,10 @@ os.chdir(head)
 percorso = os.getcwd()
 
 # CONSTANT
-srcGitDirectory = "https://github.com/deMartiniFrancesco/SRI/tree/master"
+srcGitDirectory = "https://github.com/deMartiniFrancesco/TPI-2022-2023/tree/master"
 readmePath = "/doc/README.md"
 # README
-intestazioneMD = """# SRI
+intestazioneMD = """# TPI-2022-2023
 
 """
 lastMD = """## Last
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     if boold:
         print("Start")
 
-        updateMD(head + "/src/", "demartini_F_", "C:/Users/francesco/Documents/School/SRI/projects/SRI/src/demartini_F_Orario_01")
+        updateMD(head + "/src/", "demartini_F_", "J:/Classe_5/TPI-2022-2023/src/demartini_F_Orario_01")
 
     if boold:
         print("End")
