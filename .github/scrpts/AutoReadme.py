@@ -8,15 +8,17 @@ from pathlib import Path
 head, tail = os.path.split(__file__)
 os.chdir(head)
 os.chdir("../..")
-percorso = os.getcwd()
+repo_path = os.getcwd()
+repository_name = os.path.split(repo_path)[1]
 
 # CONSTANT
-src_git_directory = "https://github.com/deMartiniFrancesco/TPI-2022-2023/tree/master"
+src_git_directory = "https://github.com/deMartiniFrancesco/" + repository_name + "/tree/master"
 readme_path = "/doc/README.md"
-src_path = percorso + "/src/"
+src_path = repo_path + "/src/"
 dir_project_name = "demartini_F_"
+
 # README
-intestazione_md = """# TPI-2022-2023
+header_md = "# " + repository_name + """
 
 """
 last_md = """## Last
@@ -33,12 +35,12 @@ projects_md = """
 
 
 def search_last_update_project(src_directory: str):
-    all_subdirs = [
+    all_subdirectories = [
         src_directory + directory for directory in os.listdir(src_directory)
         if directory.startswith(dir_project_name)
     ]
 
-    return max(all_subdirs, key=os.path.getmtime)
+    return max(all_subdirectories, key=os.path.getmtime)
 
 
 def last_project_string(dir_updated: str):
@@ -79,10 +81,10 @@ def projects_string(src_directory: str):
 
 def write_readme(last_string: str, project_string: str):
     try:
-        file_readme = open(percorso + "//README.md", "w")
+        file_readme = open(repo_path + "//README.md", "w")
 
         file_readme.write(
-            intestazione_md +
+            header_md +
             last_md +
             last_string +
             projects_md +
