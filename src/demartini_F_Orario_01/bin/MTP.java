@@ -58,9 +58,8 @@ public abstract class MTP {
     }
 
     protected void setUpStreams(Socket socket) throws IOException {
-        this.outputStream = new DataOutputStream(socket.getOutputStream());
-        this.outputStream.flush();
-        this.inputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+        inputStream = new DataInputStream(socket.getInputStream());
+        outputStream = new DataOutputStream(socket.getOutputStream());
         System.out.println("Connection accept");
     }
 

@@ -34,6 +34,7 @@ public class MTPClient extends MTP {
             System.out.println("MTPClient.sendPacket");
             try {
                 outputStream.write(packet.getBytePacket());
+                outputStream.flush();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
