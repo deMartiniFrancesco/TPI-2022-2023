@@ -136,3 +136,7 @@ fabric.properties
 lib/
 .idea/discord.xml
 .idea/runConfigurations.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+TPI-2022-2023.iml
