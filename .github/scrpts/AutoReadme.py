@@ -11,12 +11,12 @@ os.chdir("../..")
 percorso = os.getcwd()
 
 # CONSTANT
-src_git_directory = "https://github.com/deMartiniFrancesco/SRI/tree/master"
+src_git_directory = "https://github.com/deMartiniFrancesco/TPI-2022-2023/tree/master"
 readme_path = "/doc/README.md"
 src_path = percorso + "/src/"
 dir_project_name = "demartini_F_"
 # README
-intestazione_md = """# SRI
+intestazione_md = """# TPI-2022-2023
 
 """
 last_md = """## Last
