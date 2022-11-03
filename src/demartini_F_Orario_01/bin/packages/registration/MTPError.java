@@ -6,19 +6,21 @@ import demartini_F_Orario_01.bin.packages.MTPPacket;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
-public class MTPRegistrationError extends MTPPacket {
+public class MTPError extends MTPPacket {
 
-    public MTPRegistrationError() {
+    public MTPError() {
         super(PacketOperationCode.REG_ERROR);
-        super.bytePacket = getBytePacket();
+        super.dataByte = getDataByte();
     }
 
-    public MTPRegistrationError(byte[] bytePacket) {
-        super(Arrays.copyOfRange(bytePacket, 0, 1 + Integer.BYTES));
+
+    @Override
+    public int getLength() {
+        return 2;
     }
 
     @Override
-    public byte[] getBytePacket() {
+    public byte[] getDataByte() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
         outputStream.writeBytes(new byte[4]);
@@ -30,7 +32,7 @@ public class MTPRegistrationError extends MTPPacket {
     public String toString() {
         return "MTSRegistrationError{" +
                 "\n\toperationCode=" + operationCode +
-                ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
+                ",\n\tbytePacket=" + Arrays.toString(dataByte) +
                 "\n}";
     }
 

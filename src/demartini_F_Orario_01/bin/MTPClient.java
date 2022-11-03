@@ -33,7 +33,7 @@ public class MTPClient extends MTP {
         if (isConnected) {
             System.out.println("MTPClient.sendPacket");
             try {
-                outputStream.write(packet.getBytePacket());
+                outputStream.write(packet.getDataByte());
                 outputStream.flush();
             } catch (IOException e) {
                 throw new RuntimeException(e);

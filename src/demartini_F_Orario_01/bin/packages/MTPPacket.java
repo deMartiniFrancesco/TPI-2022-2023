@@ -7,30 +7,40 @@ import java.util.Arrays;
 public abstract class MTPPacket {
 
     protected final PacketOperationCode operationCode;
-    protected byte[] bytePacket;
+    protected int length;
+    protected byte[] dataByte;
 
     public MTPPacket(PacketOperationCode packetOperationCode) {
         this.operationCode = packetOperationCode;
     }
 
-    public MTPPacket(byte[] bytePacket) {
-        this.bytePacket = bytePacket;
-        operationCode = PacketOperationCode.findByValue(bytePacket[0]);
+    public MTPPacket(byte[] dataByte, int length, PacketOperationCode operationCode) {
+        this.dataByte = dataByte;
+        this.length = length;
+        this.operationCode = operationCode;
     }
 
     public PacketOperationCode getOperationCode() {
         return operationCode;
     }
 
-    public byte[] getBytePacket() {
-        return bytePacket;
+    public int getLength() {
+        return length;
+    }
+
+    public byte[] getDataByte() {
+        return dataByte;
+    }
+
+    protected void setLength(int length) {
+        this.length = length;
     }
 
     @Override
     public String toString() {
         return "MTSPacket{" +
                 "packetType=" + operationCode +
-                ", bytePacket=" + Arrays.toString(bytePacket) +
+                ", bytePacket=" + Arrays.toString(dataByte) +
                 '}';
     }
 }

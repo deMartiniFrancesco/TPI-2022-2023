@@ -55,8 +55,8 @@ public class Server {
     public static void sendPacket(MTPPacket packet) {
         try {
             server.send(new DatagramPacket(
-                    packet.getBytePacket(),
-                    packet.getBytePacket().length,
+                    packet.getDataByte(),
+                    packet.getDataByte().length,
                     serverAddress,
                     serverPort
             ));

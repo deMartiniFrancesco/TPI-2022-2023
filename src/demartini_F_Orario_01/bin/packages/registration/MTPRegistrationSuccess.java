@@ -14,16 +14,16 @@ public class MTPRegistrationSuccess extends MTPPacket {
     public MTPRegistrationSuccess(int uuid) {
         super(PacketOperationCode.REG_SUCCESS);
         this.uuid = uuid;
-        super.bytePacket = getBytePacket();
+        super.dataByte = getDataByte();
     }
 
     public MTPRegistrationSuccess(byte[] bytePacket) {
         super(Arrays.copyOfRange(bytePacket, 0, 1 + Integer.BYTES));
-        uuid = new BigInteger(Arrays.copyOfRange(super.bytePacket, 1, super.bytePacket.length)).intValue();
+        uuid = new BigInteger(Arrays.copyOfRange(super.dataByte, 1, super.dataByte.length)).intValue();
     }
 
     @Override
-    public byte[] getBytePacket() {
+    public byte[] getDataByte() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
         outputStream.writeBytes(ByteBuffer.allocate(Integer.BYTES).putInt(uuid).array());
@@ -36,7 +36,7 @@ public class MTPRegistrationSuccess extends MTPPacket {
         return "MTSRegistrationSuccess{" +
                 "\n\toperationCode=" + operationCode +
                 ",\n\tuuid=" + uuid +
-                ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
+                ",\n\tbytePacket=" + Arrays.toString(dataByte) +
                 "\n}";
     }
 

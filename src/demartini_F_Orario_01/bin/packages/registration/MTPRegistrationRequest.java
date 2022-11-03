@@ -13,16 +13,16 @@ public class MTPRegistrationRequest extends MTPPacket {
     public MTPRegistrationRequest(String name) {
         super(PacketOperationCode.REQ_REGISTRAZIONE);
         this.name = name;
-        super.bytePacket = getBytePacket();
+        super.dataByte = getDataByte();
     }
 
     public MTPRegistrationRequest(byte[] bytePacket) {
         super(Utility.trim(bytePacket));
-        name = new String(Arrays.copyOfRange(super.bytePacket, 1, super.bytePacket.length));
+        name = new String(Arrays.copyOfRange(super.dataByte, 1, super.dataByte.length));
     }
 
     @Override
-    public byte[] getBytePacket() {
+    public byte[] getDataByte() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
         outputStream.writeBytes(name.getBytes());
@@ -39,7 +39,7 @@ public class MTPRegistrationRequest extends MTPPacket {
         return "MTSRegistrationRequest{" +
                 "\n\toperationCode=" + operationCode +
                 ",\n\tname='" + name + '\'' +
-                ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
+                ",\n\tbytePacket=" + Arrays.toString(dataByte) +
                 "\n}";
     }
 }

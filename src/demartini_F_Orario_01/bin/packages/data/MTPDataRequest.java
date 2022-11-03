@@ -16,16 +16,16 @@ public class MTPDataRequest extends MTPPacket {
     public MTPDataRequest(PacketOperationCode operationCode, int uuid) {
         super(operationCode);
         this.uuid = uuid;
-        super.bytePacket = getBytePacket();
+        super.dataByte = getDataByte();
     }
 
     public MTPDataRequest(byte[] bytePacket) {
         super(Utility.trim(bytePacket));
-        uuid = new BigInteger(Arrays.copyOfRange(super.bytePacket, 1, 1 + Integer.BYTES)).intValue();
+        uuid = new BigInteger(Arrays.copyOfRange(super.dataByte, 1, 1 + Integer.BYTES)).intValue();
     }
 
     @Override
-    public byte[] getBytePacket() {
+    public byte[] getDataByte() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
         outputStream.writeBytes(ByteBuffer.allocate(Integer.BYTES).putInt(uuid).array());
@@ -38,7 +38,7 @@ public class MTPDataRequest extends MTPPacket {
         return "MTSDataRequest{" +
                 "\n\toperationCode=" + operationCode +
                 ",\n\tuuid=" + uuid +
-                ",\n\tbytePacket=" + Arrays.toString(bytePacket) +
+                ",\n\tbytePacket=" + Arrays.toString(dataByte) +
                 "\n}";
     }
 }
