@@ -6,15 +6,14 @@ import demartini_F_Orario_01.bin.packages.registration.MTPError;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
 
-
 public class RegistrationProviders {
 
-
-    public static MTPPacket evaluateRequest(MTPRegistrationRequest registrationRequest){
-        if (registrationRequest.getName().equals("deMartini")){
-            return new MTPRegistrationSuccess(Utility.nextNonNegative());
-        }
-        return new MTPError();
+  public static MTPPacket evaluateRequest(
+    MTPRegistrationRequest registrationRequest
+  ) {
+    if (registrationRequest.getName().equals("deMartini")) {
+      return new MTPRegistrationSuccess(Utility.nextNonNegative());
     }
-
+    return new MTPError();
+  }
 }

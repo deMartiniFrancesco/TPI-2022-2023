@@ -6,25 +6,26 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class ConnectionReceivedEvent {
-    private final Socket accepted;
 
-    public ConnectionReceivedEvent(Socket sock) {
-        this.accepted = sock;
-    }
+  private final Socket accepted;
 
-    public Socket getSocket() {
-        return accepted;
-    }
+  public ConnectionReceivedEvent(Socket sock) {
+    this.accepted = sock;
+  }
 
-    public OutputStream getOutput() throws IOException {
-        return accepted.getOutputStream();
-    }
+  public Socket getSocket() {
+    return accepted;
+  }
 
-    public InputStream getInput() throws IOException {
-        return accepted.getInputStream();
-    }
+  public OutputStream getOutput() throws IOException {
+    return accepted.getOutputStream();
+  }
 
-    public int getPort() {
-        return accepted.getPort();
-    }
+  public InputStream getInput() throws IOException {
+    return accepted.getInputStream();
+  }
+
+  public int getPort() {
+    return accepted.getPort();
+  }
 }

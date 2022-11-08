@@ -5,7 +5,6 @@ import demartini_F_Orario_01.bin.packages.MTPPacket;
 import demartini_F_Orario_01.bin.packages.registration.MTPError;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
-
 import java.io.IOException;
 
 /**
@@ -13,51 +12,47 @@ import java.io.IOException;
  */
 public class MTPServer extends MTP {
 
-    /**
-     * Instantiates a new Mtp server.
-     *
-     * @param serverPort the server port
-     */
-    public MTPServer(int serverPort) {
-        super(serverPort);
-    }
+  /**
+   * Instantiates a new Mtp server.
+   *
+   * @param serverPort the server port
+   */
+  public MTPServer(int serverPort) {
+    super(serverPort);
+  }
 
+  @Override
+  protected void peerToPeer(ConnectionReceivedEvent event) {
+    super.peerToPeer(event);
+    isConnected = true;
+    System.out.println(receivePacket().toString());
+  }
 
-    @Override
-    protected void peerToPeer(ConnectionReceivedEvent event) {
-        super.peerToPeer(event);
-        isConnected = true;
-        System.out.println(receivePacket().toString());
-    }
+  /**
+   * Receive packet mtp packet.
+   *
+   * @return the mtp packet
+   */
+  public MTPPacket receivePacket() {
+    if (isConnected) {
+      try {
+        int dataType = inputStream.readByte();
+        byte[] receiveData = new byte[64];
 
-    /**
-     * Receive packet mtp packet.
-     *
-     * @return the mtp packet
-     */
-    public MTPPacket receivePacket() {
-        if (isConnected) {
-            try {
-                int dataType = inputStream.readByte();
-                byte[] receiveData = new byte[64];
-
-
-                System.out.println("dataType = " + dataType);
-                PacketOperationCode type = PacketOperationCode.findByValue(dataType);
-                if (type != null) {
-                    return switch (type) {
-                        case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveData);
-                        case REG_SUCCESS -> new MTPRegistrationSuccess(receiveData);
-                        case REG_ERROR -> new MTPError();
-                        default -> null;
-                    };
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        System.out.println("dataType = " + dataType);
+        PacketOperationCode type = PacketOperationCode.findByValue(dataType);
+        if (type != null) {
+          return switch (type) {
+            case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveData);
+            case REG_SUCCESS -> new MTPRegistrationSuccess(receiveData);
+            case REG_ERROR -> new MTPError();
+            default -> null;
+          };
         }
-        return null;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
-
-
+    return null;
+  }
 }
