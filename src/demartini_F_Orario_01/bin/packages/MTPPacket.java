@@ -1,53 +1,51 @@
 package demartini_F_Orario_01.bin.packages;
 
 import demartini_F_Orario_01.bin.PacketOperationCode;
+
 import java.util.Arrays;
 
 public abstract class MTPPacket {
 
-  protected final PacketOperationCode operationCode;
-  protected int length;
-  protected byte[] dataByte;
+    protected final PacketOperationCode operationCode;
+    protected int dataLength;
+    protected byte[] dataByte;
 
-  public MTPPacket(PacketOperationCode packetOperationCode) {
-    this.operationCode = packetOperationCode;
-  }
+    public MTPPacket(PacketOperationCode packetOperationCode) {
+        this.operationCode = packetOperationCode;
+    }
 
-  public MTPPacket(
-    byte[] dataByte,
-    int length,
-    PacketOperationCode operationCode
-  ) {
-    this.dataByte = dataByte;
-    this.length = length;
-    this.operationCode = operationCode;
-  }
+    public MTPPacket(
+            PacketOperationCode operationCode,
+            int dataLength,
+            byte[] dataByte
+    ) {
+      this.operationCode = operationCode;
+      this.dataLength = dataLength;
+      this.dataByte = dataByte;
+    }
 
-  public PacketOperationCode getOperationCode() {
-    return operationCode;
-  }
+    public PacketOperationCode getOperationCode() {
+        return operationCode;
+    }
 
-  public int getLength() {
-    return length;
-  }
+    public int getDataLength() {
+        return dataLength;
+    }
 
-  public byte[] getDataByte() {
-    return dataByte;
-  }
+    public byte[] getDataByte() {
+        return dataByte;
+    }
 
-  protected void setLength(int length) {
-    this.length = length;
-  }
+    protected void setDataLength(int dataLength) {
+        this.dataLength = dataLength;
+    }
 
   @Override
   public String toString() {
-    return (
-      "MTSPacket{" +
-      "packetType=" +
-      operationCode +
-      ", bytePacket=" +
-      Arrays.toString(dataByte) +
-      '}'
-    );
+    return "MTPPacket{" +
+            "\n\toperationCode=" + operationCode +
+            ",\n\tdataLength=" + dataLength +
+            ",\n\tdataByte=" + Arrays.toString(dataByte) +
+            "\n}";
   }
 }

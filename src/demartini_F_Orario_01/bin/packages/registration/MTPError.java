@@ -13,7 +13,7 @@ public class MTPError extends MTPPacket {
   }
 
   @Override
-  public int getLength() {
+  public int getDataLength() {
     return 2;
   }
 

@@ -37,14 +37,12 @@ public class MTPServer extends MTP {
     if (isConnected) {
       try {
         int dataType = inputStream.readByte();
-        byte[] receiveData = new byte[64];
-
-        System.out.println("dataType = " + dataType);
         PacketOperationCode type = PacketOperationCode.findByValue(dataType);
+        System.out.println("type = " + type);
         if (type != null) {
           return switch (type) {
-            case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(receiveData);
-            case REG_SUCCESS -> new MTPRegistrationSuccess(receiveData);
+            case REQ_REGISTRAZIONE -> new MTPRegistrationRequest(inputStream.readNBytes(inputStream.readInt()));
+//            case REG_SUCCESS -> new MTPRegistrationSuccess(receiveData);
             case REG_ERROR -> new MTPError();
             default -> null;
           };
