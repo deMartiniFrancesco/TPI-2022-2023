@@ -5,31 +5,29 @@ import demartini_F_Orario_01.bin.packages.MTPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class MTPDataRequest extends MTPPacket {
 
-    private final int uuid;
+    private final String request;
 
-    public MTPDataRequest(PacketOperationCode operationCode, int uuid) {
+    public MTPDataRequest(PacketOperationCode operationCode, String request) {
         super(operationCode);
-        this.uuid = uuid;
-        super.setDataByte(getDataByte());
+        this.request = request;
+        super.setDataByte(request.getBytes(StandardCharsets.UTF_8));
     }
 
-//  public MTPDataRequest(byte[] bytePacket) {
-//    super(Utility.trim(bytePacket));
-//    uuid =
-//      new BigInteger(Arrays.copyOfRange(super.dataByte, 1, 1 + Integer.BYTES))
-//        .intValue();
-//  }
+    public MTPDataRequest(PacketOperationCode operationCode, byte[] bytePacket) {
+        super(operationCode, bytePacket.length, bytePacket);
+        request = new String(bytePacket);
+    }
 
     @Override
     public byte[] getDataByte() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(operationCode.getOperationCode());
-        outputStream.writeBytes(
-                ByteBuffer.allocate(Integer.BYTES).putInt(uuid).array()
-        );
+        outputStream.writeBytes(ByteBuffer.allocate(Integer.BYTES).putInt(dataLength).array());
+        outputStream.writeBytes(request.getBytes(StandardCharsets.UTF_8));
 
         return outputStream.toByteArray();
     }
@@ -39,7 +37,7 @@ public class MTPDataRequest extends MTPPacket {
         return "MTPDataRequest{" +
                 "\n\toperationCode=" + operationCode +
                 ",\n\tdataLength=" + dataLength +
-                ",\n\tuuid=" + uuid +
+                ",\n\trequest='" + request + '\'' +
                 "\n}";
     }
 }

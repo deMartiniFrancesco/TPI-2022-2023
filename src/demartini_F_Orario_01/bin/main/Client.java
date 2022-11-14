@@ -1,6 +1,8 @@
 package demartini_F_Orario_01.bin.main;
 
 import demartini_F_Orario_01.bin.MTPClient;
+import demartini_F_Orario_01.bin.PacketOperationCode;
+import demartini_F_Orario_01.bin.packages.data.MTPDataRequest;
 import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
 
 import java.net.InetAddress;
@@ -21,7 +23,7 @@ public class Client {
         MTPClient mtpClient = new MTPClient(12345);
 
         mtpClient.connect(ipTarget, 1234);
-        mtpClient.sendPacket(new MTPRegistrationRequest("deMartini"));
+        mtpClient.sendPacket(new MTPDataRequest(PacketOperationCode.PROFESSOR_REQUEST, "de Carli"));
 
         System.out.println("End");
     }
