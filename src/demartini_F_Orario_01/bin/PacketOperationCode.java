@@ -1,35 +1,34 @@
 package demartini_F_Orario_01.bin;
 
 public enum PacketOperationCode {
-  REQ_DOCENTE(1),
-  REQ_AULA(2),
-  REQ_CLASSE(3),
-  REQ_DOCENTE_ADESSO(11),
-  REQ_AULA_ADESSO(12),
-  REQ_CLASSE_ADESSO(13),
-  REPLY(21),
-  DATA_ERROR(22),
-  END_OF_DATA(23),
-  REQ_REGISTRAZIONE(24),
-  REG_SUCCESS(25),
-  REG_ERROR(26);
+    PROFESSOR_REQUEST(1),
+    CLASSROOM_REQUEST(2),
+    CLASS_REQUEST(3),
+    PROFESSOR_REQUEST_NOW(11),
+    CLASSROOM_REQUEST_NOW(12),
+    CLASS_REQUEST_NOW(13),
+    DATA(21),
+    END_CONNECTION(22),
+    ERROR(23),
+    REGISTRATION_REQUEST(31),
+    REGISTRATION_SUCCESS(32);
 
-  private final int operationCode;
+    private final int operationCode;
 
-  PacketOperationCode(int packetTypeInt) {
-    operationCode = packetTypeInt;
-  }
-
-  public static PacketOperationCode findByValue(int intType) {
-    for (PacketOperationCode packetOperationCode : values()) {
-      if (packetOperationCode.getOperationCode() == intType) {
-        return packetOperationCode;
-      }
+    PacketOperationCode(int packetTypeInt) {
+        operationCode = packetTypeInt;
     }
-    return null;
-  }
 
-  public int getOperationCode() {
-    return operationCode;
-  }
+    public static PacketOperationCode findByValue(int intType) {
+        for (PacketOperationCode packetOperationCode : values()) {
+            if (packetOperationCode.getOperationCode() == intType) {
+                return packetOperationCode;
+            }
+        }
+        return null;
+    }
+
+    public int getOperationCode() {
+        return operationCode;
+    }
 }

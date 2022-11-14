@@ -1,40 +1,42 @@
 package demartini_F_Orario_01.bin.packages.registration;
 
+import demartini_F_Orario_01.bin.PacketErrorCode;
 import demartini_F_Orario_01.bin.PacketOperationCode;
 import demartini_F_Orario_01.bin.packages.MTPPacket;
+
 import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
+import java.nio.ByteBuffer;
 
 public class MTPError extends MTPPacket {
 
-  public MTPError() {
-    super(PacketOperationCode.REG_ERROR);
-    super.dataByte = getDataByte();
-  }
+    private final PacketErrorCode errorCode;
 
-  @Override
-  public int getDataLength() {
-    return 2;
-  }
+    public MTPError(PacketErrorCode errorCode) {
+        super(PacketOperationCode.ERROR);
+        this.errorCode = errorCode;
+        super.setDataByte(ByteBuffer.allocate(Integer.BYTES).putInt(errorCode.getErrorCode()).array());
+    }
 
-  @Override
-  public byte[] getDataByte() {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    outputStream.write(operationCode.getOperationCode());
-    outputStream.writeBytes(new byte[4]);
+    public MTPError(byte[] dataByte) {
+        super(PacketOperationCode.ERROR, Integer.BYTES, dataByte);
+        errorCode = PacketErrorCode.findByValue(ByteBuffer.wrap(dataByte).getInt());
+    }
 
-    return outputStream.toByteArray();
-  }
+    @Override
+    public byte[] getDataByte() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        outputStream.write(operationCode.getOperationCode());
+        outputStream.writeBytes(ByteBuffer.allocate(Integer.BYTES).putInt(errorCode.getErrorCode()).array());
 
-  @Override
-  public String toString() {
-    return (
-      "MTSRegistrationError{" +
-      "\n\toperationCode=" +
-      operationCode +
-      ",\n\tbytePacket=" +
-      Arrays.toString(dataByte) +
-      "\n}"
-    );
-  }
+        return outputStream.toByteArray();
+    }
+
+    @Override
+    public String toString() {
+        return "MTPError{" +
+                "\n\toperationCode=" + operationCode +
+                ",\n\tdataLength=" + dataLength +
+                ",\n\terrorCode=" + errorCode +
+                "\n}";
+    }
 }

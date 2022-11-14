@@ -7,25 +7,25 @@ import java.net.Socket;
 
 public class ConnectionReceivedEvent {
 
-  private final Socket accepted;
+    private final Socket accepted;
 
-  public ConnectionReceivedEvent(Socket sock) {
-    this.accepted = sock;
-  }
+    public ConnectionReceivedEvent(Socket sock) {
+        this.accepted = sock;
+    }
 
-  public Socket getSocket() {
-    return accepted;
-  }
+    public Socket getSocket() {
+        return accepted;
+    }
 
-  public OutputStream getOutput() throws IOException {
-    return accepted.getOutputStream();
-  }
+    public OutputStream getOutput() throws IOException {
+        return accepted.getOutputStream();
+    }
 
-  public InputStream getInput() throws IOException {
-    return accepted.getInputStream();
-  }
+    public InputStream getInput() throws IOException {
+        return accepted.getInputStream();
+    }
 
-  public int getPort() {
-    return accepted.getPort();
-  }
+    public int getPort() {
+        return accepted.getPort();
+    }
 }

@@ -4,5 +4,5 @@ import java.util.EventListener;
 
 @FunctionalInterface
 public interface ConnectionReceivedListener extends EventListener {
-  void onConnectionReceived(ConnectionReceivedEvent event);
+    void onConnectionReceived(ConnectionReceivedEvent event);
 }
