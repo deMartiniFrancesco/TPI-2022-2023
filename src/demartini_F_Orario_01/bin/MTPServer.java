@@ -51,7 +51,8 @@ public class MTPServer extends MTP {
                                 type,
                                 inputStream.readNBytes(inputStream.readInt())
                         );
-                        case REGISTRATION_REQUEST -> new MTPRegistrationRequest(inputStream.readNBytes(inputStream.readInt()));
+                        case REGISTRATION_REQUEST ->
+                                new MTPRegistrationRequest(inputStream.readNBytes(inputStream.readInt()));
                         case REGISTRATION_SUCCESS -> new MTPRegistrationSuccess(inputStream.readNBytes(Integer.BYTES));
                         case ERROR -> new MTPError(inputStream.readNBytes(Integer.BYTES));
                         default -> null;

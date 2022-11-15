@@ -3,7 +3,6 @@ package demartini_F_Orario_01.bin.main;
 import demartini_F_Orario_01.bin.MTPClient;
 import demartini_F_Orario_01.bin.PacketOperationCode;
 import demartini_F_Orario_01.bin.packages.data.MTPDataRequest;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
