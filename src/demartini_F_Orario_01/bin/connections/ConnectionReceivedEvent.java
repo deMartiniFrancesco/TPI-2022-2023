@@ -3,6 +3,7 @@ package demartini_F_Orario_01.bin.connections;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class ConnectionReceivedEvent {
@@ -23,6 +24,10 @@ public class ConnectionReceivedEvent {
 
     public InputStream getInput() throws IOException {
         return accepted.getInputStream();
+    }
+
+    public InetAddress getAddress() {
+        return accepted.getInetAddress();
     }
 
     public int getPort() {

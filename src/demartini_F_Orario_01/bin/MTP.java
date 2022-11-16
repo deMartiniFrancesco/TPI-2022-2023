@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 public abstract class MTP {
 
-    protected final ExecutorService es = Executors.newCachedThreadPool();
+    protected final ExecutorService executorService = Executors.newCachedThreadPool();
     protected final int port;
     protected Socket activeConnectionSocket;
     protected ServerSocket listener;
@@ -32,37 +32,28 @@ public abstract class MTP {
             System.out.println("MTP.startListening");
             closeIfNotNull();
             listener = createListeningSocket();
-            es.execute(new ServerAccept(listener, this::peerToPeer));
+            executorService.execute(new ServerAccept(listener, this::connectionReceive));
         }
     }
 
-    protected void peerToPeer(ConnectionReceivedEvent event) {
-        setAccepted(event.getSocket());
-    }
-
-    protected void setAccepted(Socket socket) {
+    protected void connectionReceive(ConnectionReceivedEvent event) {
         if (!isConnected) {
-            System.out.printf(
-                    "Accept address: %s:%s%n",
-                    socket.getInetAddress(),
-                    socket.getLocalPort()
-            );
-            this.activeConnectionSocket = socket;
+            this.activeConnectionSocket = event.getSocket();
             try {
-                setUpStreams(socket);
+                inputStream = new DataInputStream(event.getInput());
+                outputStream = new DataOutputStream(event.getOutput());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            System.out.printf(
+                    "Connection accept: %s:%s%n",
+                    event.getAddress(),
+                    event.getPort()
+            );
         } else {
             System.out.println("Error");
             //            sendError(socket);
         }
-    }
-
-    protected void setUpStreams(Socket socket) throws IOException {
-        inputStream = new DataInputStream(socket.getInputStream());
-        outputStream = new DataOutputStream(socket.getOutputStream());
-        System.out.println("Connection accept");
     }
 
     public void connect(InetAddress targetAddress, int targetPort) {

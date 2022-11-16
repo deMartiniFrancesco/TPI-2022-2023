@@ -4,7 +4,7 @@
 
 ## Consegna
 
-Descrizione, lato client, delle funzionalit� dell'applicazione orario.
+Descrizione, lato client, delle funzionalita dell'applicazione orario.
 
 Interfaccia utente - Casi d'uso
 

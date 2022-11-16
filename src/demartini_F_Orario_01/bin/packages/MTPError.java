@@ -1,4 +1,4 @@
-package demartini_F_Orario_01.bin.packages.registration;
+package demartini_F_Orario_01.bin.packages;
 
 import demartini_F_Orario_01.bin.PacketErrorCode;
 import demartini_F_Orario_01.bin.PacketOperationCode;
