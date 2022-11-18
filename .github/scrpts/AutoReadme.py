@@ -40,7 +40,7 @@ def search_last_update_project(src_directory: str):
         if directory.startswith(dir_project_name)
     ]
 
-    return max(all_subdirectories, key=os.path.getmtime)
+    return max(all_subdirectories, key=os.path.getctime)
 
 
 def last_project_string(dir_updated: str):
