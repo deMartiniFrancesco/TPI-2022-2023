@@ -1,17 +1,11 @@
 name: Run Py Script
 
 on:
-
   workflow_dispatch:
-
     # Inputs the workflow accepts.
-
     inputs:
-
       name:
-
         # Friendly description to be shown in the UI instead of 'name'
-
         description: "Generate labels"
   push:
 
@@ -45,18 +39,28 @@ jobs:
           FILES: |
             README.md
 
-
-      - name: Commit files
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git commit -m "bot: Update Readme" -a
-        if: env.GIT_DIFF && env.MATCHED_FILES
-
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.1.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
+          message: "bot: Update Readme"
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          add: 'README.md --force'
         if: env.GIT_DIFF && env.MATCHED_FILES
+
+
+
+#      - name: Commit files
+#        run: |
+#          git config --local user.email "action@github.com"
+#          git config --local user.name "GitHub Action"
+#          git add -A
+#          git commit -m "bot: Update Readme" -a
+#        if: env.GIT_DIFF && env.MATCHED_FILES
+#
+#      - name: Push changes
+#        uses: ad-m/github-push-action@v0.6.0
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch: master
+#        if: env.GIT_DIFF && env.MATCHED_FILES
