@@ -57,7 +57,6 @@ class TFTP {
                     ).getInt());
             ;
             if (type != null) {
-                System.out.println("TFTP.receivePacket");
                 return switch (type) {
                     case DATA -> new TftpDataPacket(receiveBuff);
                     default -> null;

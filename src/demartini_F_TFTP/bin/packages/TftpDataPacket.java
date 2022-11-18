@@ -21,9 +21,16 @@ public class TftpDataPacket extends TftpPacket {
     public TftpDataPacket(byte[] bytePacket) {
         super(bytePacket);
         block = ByteBuffer.wrap(Utility.toIntegerLength(Arrays.copyOfRange(bytePacket, 2, 4))).getInt();
-        data = Arrays.copyOfRange(bytePacket, 4, bytePacket.length);
+        data = Utility.trim(Arrays.copyOfRange(bytePacket, 4, bytePacket.length));
     }
 
+    public int getBlock() {
+        return block;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
 
     @Override
     public String toString() {

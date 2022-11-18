@@ -1,5 +1,6 @@
 package demartini_F_TFTP.bin;
 
+import demartini_F_TFTP.bin.packages.TftpDataPacket;
 import demartini_F_TFTP.bin.packages.TftpFileRequestPackage;
 
 import java.net.InetAddress;
@@ -22,7 +23,11 @@ public class Main {
         tftp.sendPacket(new TftpFileRequestPackage(
                 PacketMode.OCTET,
                 "filecorto"));
-        System.out.println(tftp.receivePacket());
+
+        if (tftp.receivePacket() instanceof TftpDataPacket packet) {
+            System.out.printf("Contenuto: \n%s\nLunghezza: %d byte\n",
+                    new String(packet.getData()), packet.getData().length);
+        }
 
         System.out.println("End");
 
