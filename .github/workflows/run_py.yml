@@ -26,7 +26,8 @@ jobs:
           python -m pip install --upgrade pip
 
       - name: Execute py script
-        run: python .github/scrpts/AutoReadme.py
+        run: |
+          python .github/scripts/AutoReadme.py
 
       - name: Check diff
         uses: technote-space/get-diff-action@v6
