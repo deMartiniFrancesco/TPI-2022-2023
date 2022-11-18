@@ -1,7 +1,19 @@
 name: Run Py Script
 
 on:
-  push
+
+  workflow_dispatch:
+
+    # Inputs the workflow accepts.
+
+    inputs:
+
+      name:
+
+        # Friendly description to be shown in the UI instead of 'name'
+
+        description: "Generate labels"
+  push:
 
 jobs:
   build:
