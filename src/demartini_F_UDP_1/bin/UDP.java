@@ -1,32 +1,43 @@
 package demartini_F_UDP_1.bin;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.io.*;
+import java.net.*;
 
 class UDP {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         System.out.println("Start");
 
-        InetAddress ip1 = InetAddress.getByName("172.16.1.99");
-        int port = 7;
-        try (DatagramSocket socket = new DatagramSocket()) {
-            DatagramPacket p_send, p_rece;
-            String mex = "meprova";
+        if (args.length != 1) {
+            System.err.println(
+                    "Usage: java EchoClient <host name> <port number>");
+            System.exit(1);
+        }
 
-            byte[] sendBuf = mex.getBytes();
-            p_send = new DatagramPacket(sendBuf, sendBuf.length, ip1, port);
+        int portNumber = Integer.parseInt(args[0]);
 
-            byte[] recBuf = new byte[256];
-            p_rece = new DatagramPacket(recBuf, recBuf.length);
-
-            socket.send(p_send);
-            socket.receive(p_rece);
-            String rec = new String(recBuf, 0, p_rece.getLength());
-
-            System.out.println(rec);
+        try (
+                Socket echoSocket = new Socket(InetAddress.getLocalHost(), portNumber);
+                PrintWriter out =
+                        new PrintWriter(echoSocket.getOutputStream(), true);
+                BufferedReader in =
+                        new BufferedReader(
+                                new InputStreamReader(echoSocket.getInputStream()));
+                BufferedReader stdIn =
+                        new BufferedReader(
+                                new InputStreamReader(System.in))
+        ) {
+            String userInput;
+            while ((userInput = stdIn.readLine()) != null) {
+                out.println(userInput);
+                System.out.println("echo: " + in.readLine());
+            }
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host localhost");
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to localhost");
+            System.exit(1);
         }
         System.out.println("End");
 
