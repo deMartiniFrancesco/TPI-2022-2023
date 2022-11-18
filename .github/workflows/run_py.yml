@@ -47,20 +47,3 @@ jobs:
           committer_email: actions@github.com
           add: 'README.md --force'
         if: env.GIT_DIFF && env.MATCHED_FILES
-
-
-
-#      - name: Commit files
-#        run: |
-#          git config --local user.email "action@github.com"
-#          git config --local user.name "GitHub Action"
-#          git add -A
-#          git commit -m "bot: Update Readme" -a
-#        if: env.GIT_DIFF && env.MATCHED_FILES
-#
-#      - name: Push changes
-#        uses: ad-m/github-push-action@v0.6.0
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          branch: master
-#        if: env.GIT_DIFF && env.MATCHED_FILES

@@ -39,7 +39,7 @@ def search_last_update_project(src_directory: str):
         src_directory + directory for directory in os.listdir(src_directory)
         if directory.startswith(dir_project_name)
     ]
-
+    print("Last update: ", max(all_subdirectories, key=os.path.getctime))
     return max(all_subdirectories, key=os.path.getctime)
 
 
