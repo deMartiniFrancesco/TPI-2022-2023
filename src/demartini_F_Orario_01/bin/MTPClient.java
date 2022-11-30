@@ -29,6 +29,11 @@ public class MTPClient extends MTP {
         }
     }
 
+    /**
+     * Send packet.
+     *
+     * @param packet the packet
+     */
     public void sendPacket(MTPPacket packet) {
         if (isConnected) {
             System.out.println("MTPClient.sendPacket");

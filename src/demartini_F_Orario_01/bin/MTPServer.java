@@ -1,11 +1,7 @@
 package demartini_F_Orario_01.bin;
 
 import demartini_F_Orario_01.bin.connections.ConnectionReceivedEvent;
-import demartini_F_Orario_01.bin.packages.MTPPacket;
-import demartini_F_Orario_01.bin.packages.data.MTPDataRequest;
-import demartini_F_Orario_01.bin.packages.MTPError;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
+import demartini_F_Orario_01.bin.packages.*;
 
 import java.io.IOException;
 

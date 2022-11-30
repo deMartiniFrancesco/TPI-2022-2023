@@ -3,15 +3,23 @@ package demartini_F_Orario_01.bin.main;
 import demartini_F_Orario_01.bin.MTPClient;
 import demartini_F_Orario_01.bin.PacketOperationCode;
 import demartini_F_Orario_01.bin.Utility;
-import demartini_F_Orario_01.bin.packages.data.MTPDataRequest;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationRequest;
-import demartini_F_Orario_01.bin.packages.registration.MTPRegistrationSuccess;
+import demartini_F_Orario_01.bin.packages.MTPDataRequest;
+import demartini_F_Orario_01.bin.packages.MTPRegistrationRequest;
+import demartini_F_Orario_01.bin.packages.MTPRegistrationSuccess;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * The type Client.
+ */
 public class Client {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         System.out.println("Start");
 

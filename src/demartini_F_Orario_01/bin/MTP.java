@@ -12,21 +12,53 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * The type Mtp.
+ */
 public abstract class MTP {
 
+    /**
+     * The Executor service.
+     */
     protected final ExecutorService executorService = Executors.newCachedThreadPool();
+    /**
+     * The Port.
+     */
     protected final int port;
+    /**
+     * The Active connection socket.
+     */
     protected Socket activeConnectionSocket;
+    /**
+     * The Listener.
+     */
     protected ServerSocket listener;
+    /**
+     * The Is connected.
+     */
     protected boolean isConnected = false;
+    /**
+     * The Input stream.
+     */
     protected DataInputStream inputStream = null;
+    /**
+     * The Output stream.
+     */
     protected DataOutputStream outputStream = null;
 
+    /**
+     * Instantiates a new Mtp.
+     *
+     * @param port the port
+     */
     protected MTP(int port) {
         this.port = port;
         startListening();
     }
 
+    /**
+     * Start listening.
+     */
     public void startListening() {
         if (!isConnected) {
             System.out.println("MTP.startListening");
@@ -36,6 +68,11 @@ public abstract class MTP {
         }
     }
 
+    /**
+     * Connection receive.
+     *
+     * @param event the event
+     */
     protected void connectionReceive(ConnectionReceivedEvent event) {
         if (!isConnected) {
             this.activeConnectionSocket = event.getSocket();
@@ -56,6 +93,12 @@ public abstract class MTP {
         }
     }
 
+    /**
+     * Connect.
+     *
+     * @param targetAddress the target address
+     * @param targetPort    the target port
+     */
     public void connect(InetAddress targetAddress, int targetPort) {
         isConnected = true;
         try {
@@ -71,6 +114,9 @@ public abstract class MTP {
         }
     }
 
+    /**
+     * Close if not null.
+     */
     protected void closeIfNotNull() {
         if (listener != null) {
             try {
@@ -81,6 +127,11 @@ public abstract class MTP {
         }
     }
 
+    /**
+     * Create listening socket server socket.
+     *
+     * @return the server socket
+     */
     protected ServerSocket createListeningSocket() {
         ServerSocket temp = null;
         try {

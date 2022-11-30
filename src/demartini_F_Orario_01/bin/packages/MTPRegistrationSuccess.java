@@ -1,21 +1,33 @@
-package demartini_F_Orario_01.bin.packages.registration;
+package demartini_F_Orario_01.bin.packages;
 
 import demartini_F_Orario_01.bin.PacketOperationCode;
-import demartini_F_Orario_01.bin.packages.MTPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * The type Mtp registration success.
+ */
 public class MTPRegistrationSuccess extends MTPPacket {
 
     private final int uuid;
 
+    /**
+     * Instantiates a new Mtp registration success.
+     *
+     * @param uuid the uuid
+     */
     public MTPRegistrationSuccess(int uuid) {
         super(PacketOperationCode.REGISTRATION_SUCCESS);
         this.uuid = uuid;
         super.setDataByte(ByteBuffer.allocate(Integer.BYTES).putInt(uuid).array());
     }
 
+    /**
+     * Instantiates a new Mtp registration success.
+     *
+     * @param dataByte the data byte
+     */
     public MTPRegistrationSuccess(byte[] dataByte) {
         super(PacketOperationCode.REGISTRATION_SUCCESS, Integer.BYTES, dataByte);
         uuid = ByteBuffer.wrap(dataByte).getInt();

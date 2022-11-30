@@ -3,11 +3,20 @@ package demartini_F_Orario_01.bin.connections;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * The type Server accept.
+ */
 public class ServerAccept implements Runnable {
 
     private final ServerSocket serv;
     private final ConnectionReceivedListener listener;
 
+    /**
+     * Instantiates a new Server accept.
+     *
+     * @param sock the sock
+     * @param con  the con
+     */
     public ServerAccept(ServerSocket sock, ConnectionReceivedListener con) {
         this.serv = sock;
         this.listener = con;

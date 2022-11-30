@@ -1,22 +1,36 @@
-package demartini_F_Orario_01.bin.packages.data;
+package demartini_F_Orario_01.bin.packages;
 
 import demartini_F_Orario_01.bin.PacketOperationCode;
-import demartini_F_Orario_01.bin.packages.MTPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * The type Mtp data request.
+ */
 public class MTPDataRequest extends MTPPacket {
 
     private final String request;
 
+    /**
+     * Instantiates a new Mtp data request.
+     *
+     * @param operationCode the operation code
+     * @param request       the request
+     */
     public MTPDataRequest(PacketOperationCode operationCode, String request) {
         super(operationCode);
         this.request = request;
         super.setDataByte(request.getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * Instantiates a new Mtp data request.
+     *
+     * @param operationCode the operation code
+     * @param bytePacket    the byte packet
+     */
     public MTPDataRequest(PacketOperationCode operationCode, byte[] bytePacket) {
         super(operationCode, bytePacket.length, bytePacket);
         request = new String(bytePacket);
