@@ -39,6 +39,7 @@ public class Server {
      */
     public static void main(String[] args) {
         MTPServer mtpServer = new MTPServer(1234);
+        mtpServer.startListening();
     }
 
     /**

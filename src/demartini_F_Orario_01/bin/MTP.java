@@ -20,7 +20,7 @@ public abstract class MTP {
     /**
      * The Executor service.
      */
-    protected final ExecutorService executorService = Executors.newCachedThreadPool();
+    protected final ExecutorService connectionExecutorService = Executors.newSingleThreadExecutor();
     /**
      * The Port.
      */
@@ -53,7 +53,6 @@ public abstract class MTP {
      */
     protected MTP(int port) {
         this.port = port;
-        startListening();
     }
 
     /**
@@ -64,7 +63,7 @@ public abstract class MTP {
             System.out.println("MTP.startListening");
             closeIfNotNull();
             listener = createListeningSocket();
-            executorService.execute(new ServerAccept(listener, this::connectionReceive));
+            connectionExecutorService.execute(new ServerAccept(listener, this::connectionReceive));
         }
     }
 
@@ -74,23 +73,6 @@ public abstract class MTP {
      * @param event the event
      */
     protected void connectionReceive(ConnectionReceivedEvent event) {
-        if (!isConnected) {
-            this.activeConnectionSocket = event.getSocket();
-            try {
-                inputStream = new DataInputStream(event.getInput());
-                outputStream = new DataOutputStream(event.getOutput());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.printf(
-                    "Connection accept: %s:%s%n",
-                    event.getAddress(),
-                    event.getPort()
-            );
-        } else {
-            System.out.println("Error");
-            //            sendError(socket);
-        }
     }
 
     /**
@@ -103,14 +85,10 @@ public abstract class MTP {
         isConnected = true;
         try {
             activeConnectionSocket = new Socket(targetAddress, targetPort);
+            inputStream = new DataInputStream(activeConnectionSocket.getInputStream());
+            outputStream = new DataOutputStream(activeConnectionSocket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        try {
-            listener.close();
-        } catch (IOException e) {
-            // this will almost certainly throw an exception, but it is intended.
         }
     }
 

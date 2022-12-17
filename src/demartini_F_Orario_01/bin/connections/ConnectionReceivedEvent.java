@@ -9,28 +9,7 @@ import java.net.Socket;
 /**
  * The type Connection received event.
  */
-public class ConnectionReceivedEvent {
-
-    private final Socket accepted;
-
-    /**
-     * Instantiates a new Connection received event.
-     *
-     * @param sock the sock
-     */
-    public ConnectionReceivedEvent(Socket sock) {
-        this.accepted = sock;
-    }
-
-    /**
-     * Gets socket.
-     *
-     * @return the socket
-     */
-    public Socket getSocket() {
-        return accepted;
-    }
-
+public record ConnectionReceivedEvent(Socket socket) {
     /**
      * Gets output.
      *
@@ -38,7 +17,7 @@ public class ConnectionReceivedEvent {
      * @throws IOException the io exception
      */
     public OutputStream getOutput() throws IOException {
-        return accepted.getOutputStream();
+        return socket.getOutputStream();
     }
 
     /**
@@ -48,7 +27,7 @@ public class ConnectionReceivedEvent {
      * @throws IOException the io exception
      */
     public InputStream getInput() throws IOException {
-        return accepted.getInputStream();
+        return socket.getInputStream();
     }
 
     /**
@@ -57,7 +36,7 @@ public class ConnectionReceivedEvent {
      * @return the address
      */
     public InetAddress getAddress() {
-        return accepted.getInetAddress();
+        return socket.getInetAddress();
     }
 
     /**
@@ -66,6 +45,6 @@ public class ConnectionReceivedEvent {
      * @return the port
      */
     public int getPort() {
-        return accepted.getPort();
+        return socket.getPort();
     }
 }
