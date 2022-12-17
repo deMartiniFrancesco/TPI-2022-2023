@@ -15,30 +15,18 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * The type Mtp server.
- */
 public class MTPServer extends MTP {
-
 
     private final ExecutorService dataExecutorService = Executors.newCachedThreadPool();
 
     private final Set<ConnectionReceivedEvent> connectionReceived = new HashSet<>();
 
 
-    /**
-     * Instantiates a new Mtp server.
-     *
-     * @param serverPort the server port
-     */
     public MTPServer(int serverPort) {
         super(serverPort);
     }
 
 
-    /**
-     * Start listening.
-     */
     public void startListening() {
         System.out.println("Start Listening...");
         closeIfNotNull();
@@ -60,9 +48,6 @@ public class MTPServer extends MTP {
         }
     }
 
-    /**
-     * Receive packet mtp packet.
-     */
     public void receivePacket(DataReceivedEvent event) {
         if (connectionReceived.contains(event.connection())) {
             try {
@@ -81,7 +66,8 @@ public class MTPServer extends MTP {
                         );
                         case REGISTRATION_REQUEST ->
                                 new MTPRegistrationRequest(event.getDataInput().readNBytes(event.getDataInput().readInt()));
-                        case REGISTRATION_SUCCESS -> new MTPRegistrationSuccess(event.getDataInput().readNBytes(Integer.BYTES));
+                        case REGISTRATION_SUCCESS ->
+                                new MTPRegistrationSuccess(event.getDataInput().readNBytes(Integer.BYTES));
                         case ERROR -> new MTPError(event.getDataInput().readNBytes(Integer.BYTES));
                         default -> null;
                     });

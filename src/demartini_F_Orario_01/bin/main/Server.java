@@ -10,43 +10,18 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-/**
- * The type Server.
- */
 public class Server {
 
-    /**
-     * The Target packet.
-     */
     static DatagramPacket targetPacket;
-    /**
-     * The Server.
-     */
     static DatagramSocket server;
-    /**
-     * The Server address.
-     */
     static InetAddress serverAddress;
-    /**
-     * The Server port.
-     */
     static int serverPort;
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args) {
         MTPServer mtpServer = new MTPServer(1234);
         mtpServer.startListening();
     }
 
-    /**
-     * Response packet.
-     *
-     * @param packet the packet
-     */
     public static void responsePacket(MTPPacket packet) {
         if (targetPacket == null || packet == null) {
             throw new RuntimeException();
@@ -69,29 +44,14 @@ public class Server {
         sendPacket(response);
     }
 
-    /**
-     * Sets server address.
-     *
-     * @param serverAddress the server address
-     */
     public static void setServerAddress(InetAddress serverAddress) {
         Server.serverAddress = serverAddress;
     }
 
-    /**
-     * Sets server port.
-     *
-     * @param serverPort the server port
-     */
     public static void setServerPort(int serverPort) {
         Server.serverPort = serverPort;
     }
 
-    /**
-     * Send packet.
-     *
-     * @param packet the packet
-     */
     public static void sendPacket(MTPPacket packet) {
         try {
             server.send(

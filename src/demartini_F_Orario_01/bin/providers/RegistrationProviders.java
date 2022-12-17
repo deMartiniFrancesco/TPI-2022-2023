@@ -7,17 +7,8 @@ import demartini_F_Orario_01.bin.packages.MTPPacket;
 import demartini_F_Orario_01.bin.packages.MTPRegistrationRequest;
 import demartini_F_Orario_01.bin.packages.MTPRegistrationSuccess;
 
-/**
- * The type Registration providers.
- */
 public class RegistrationProviders {
 
-    /**
-     * Evaluate request mtp packet.
-     *
-     * @param registrationRequest the registration request
-     * @return the mtp packet
-     */
     public static MTPPacket evaluateRequest(
             MTPRegistrationRequest registrationRequest
     ) {

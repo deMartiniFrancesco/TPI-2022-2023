@@ -18,20 +18,10 @@ public record DataReceivedEvent(int dataAvailable,
         return new DataOutputStream(connection.getOutput());
     }
 
-    /**
-     * Gets address.
-     *
-     * @return the address
-     */
     public InetAddress getAddress() {
         return connection.socket().getInetAddress();
     }
 
-    /**
-     * Gets port.
-     *
-     * @return the port
-     */
     public int getPort() {
         return connection.socket().getPort();
     }

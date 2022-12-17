@@ -10,16 +10,8 @@ import demartini_F_Orario_01.bin.packages.MTPRegistrationSuccess;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/**
- * The type Client.
- */
 public class Client {
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args) {
         System.out.println("Start");
 
