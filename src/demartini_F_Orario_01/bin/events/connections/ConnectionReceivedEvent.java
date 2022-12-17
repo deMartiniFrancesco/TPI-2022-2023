@@ -1,4 +1,4 @@
-package demartini_F_Orario_01.bin.connections;
+package demartini_F_Orario_01.bin.events.connections;
 
 import java.io.IOException;
 import java.io.InputStream;

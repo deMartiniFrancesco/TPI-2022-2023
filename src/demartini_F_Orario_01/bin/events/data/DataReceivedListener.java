@@ -1,4 +1,4 @@
-package demartini_F_Orario_01.bin.data;
+package demartini_F_Orario_01.bin.events.data;
 
 
 import java.util.EventListener;
