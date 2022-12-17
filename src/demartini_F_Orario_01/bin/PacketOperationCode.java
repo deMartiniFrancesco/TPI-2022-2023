@@ -1,6 +1,7 @@
 package demartini_F_Orario_01.bin;
 
 public enum PacketOperationCode {
+    DEFAULT(0),
     PROFESSOR_REQUEST(1),
     CLASSROOM_REQUEST(2),
     CLASS_REQUEST(3),
@@ -25,7 +26,7 @@ public enum PacketOperationCode {
                 return packetOperationCode;
             }
         }
-        return null;
+        return DEFAULT;
     }
 
     public int getOperationCode() {
