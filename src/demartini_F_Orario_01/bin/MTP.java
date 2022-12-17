@@ -1,16 +1,12 @@
 package demartini_F_Orario_01.bin;
 
-import demartini_F_Orario_01.bin.connections.ConnectionReceivedEvent;
-import demartini_F_Orario_01.bin.connections.ServerAccept;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The type Mtp.
@@ -20,7 +16,10 @@ public abstract class MTP {
     /**
      * The Executor service.
      */
-    protected final ExecutorService connectionExecutorService = Executors.newSingleThreadExecutor();
+    protected final ExecutorService connectionExecutorService = new ThreadPoolExecutor(
+            0, Integer.MAX_VALUE,
+            0L, TimeUnit.MILLISECONDS,
+            new SynchronousQueue<>());
     /**
      * The Port.
      */
@@ -37,14 +36,6 @@ public abstract class MTP {
      * The Is connected.
      */
     protected boolean isConnected = false;
-    /**
-     * The Input stream.
-     */
-    protected DataInputStream inputStream = null;
-    /**
-     * The Output stream.
-     */
-    protected DataOutputStream outputStream = null;
 
     /**
      * Instantiates a new Mtp.
@@ -53,43 +44,6 @@ public abstract class MTP {
      */
     protected MTP(int port) {
         this.port = port;
-    }
-
-    /**
-     * Start listening.
-     */
-    public void startListening() {
-        if (!isConnected) {
-            System.out.println("MTP.startListening");
-            closeIfNotNull();
-            listener = createListeningSocket();
-            connectionExecutorService.execute(new ServerAccept(listener, this::connectionReceive));
-        }
-    }
-
-    /**
-     * Connection receive.
-     *
-     * @param event the event
-     */
-    protected void connectionReceive(ConnectionReceivedEvent event) {
-    }
-
-    /**
-     * Connect.
-     *
-     * @param targetAddress the target address
-     * @param targetPort    the target port
-     */
-    public void connect(InetAddress targetAddress, int targetPort) {
-        isConnected = true;
-        try {
-            activeConnectionSocket = new Socket(targetAddress, targetPort);
-            inputStream = new DataInputStream(activeConnectionSocket.getInputStream());
-            outputStream = new DataOutputStream(activeConnectionSocket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

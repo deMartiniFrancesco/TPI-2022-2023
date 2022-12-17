@@ -8,24 +8,26 @@ import java.net.ServerSocket;
  */
 public class ServerAccept implements Runnable {
 
-    private final ServerSocket serv;
+    private final ServerSocket serverSocket;
     private final ConnectionReceivedListener listener;
 
     /**
      * Instantiates a new Server accept.
      *
-     * @param sock the sock
-     * @param con  the con
+     * @param serverSocket the serverSocket
+     * @param receivedListener  the receivedListener
      */
-    public ServerAccept(ServerSocket sock, ConnectionReceivedListener con) {
-        this.serv = sock;
-        this.listener = con;
+    public ServerAccept(ServerSocket serverSocket, ConnectionReceivedListener receivedListener) {
+        this.serverSocket = serverSocket;
+        this.listener = receivedListener;
     }
 
     @Override
     public void run() {
         try {
-            listener.onConnectionReceived(new ConnectionReceivedEvent(serv.accept()));
+            while(true) {
+                listener.onConnectionReceived(new ConnectionReceivedEvent(serverSocket.accept()));
+            }
         } catch (IOException e) {
             // planned exception here.
         }
