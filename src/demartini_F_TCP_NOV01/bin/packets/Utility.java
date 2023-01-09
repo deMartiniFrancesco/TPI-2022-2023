@@ -6,13 +6,13 @@ import java.util.Arrays;
 
 public class Utility {
 
-public static byte[] intTo2Byte(int num) {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    outputStream.writeBytes(
-            ByteBuffer.allocate(2).putShort((short) num).array()
-    );
-    return outputStream.toByteArray();
-}
+    public static byte[] intTo2Byte(int num) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        outputStream.writeBytes(
+                ByteBuffer.allocate(2).putShort((short) num).array()
+        );
+        return outputStream.toByteArray();
+    }
 
 
     public static byte[] trim(byte[] bytes) {
