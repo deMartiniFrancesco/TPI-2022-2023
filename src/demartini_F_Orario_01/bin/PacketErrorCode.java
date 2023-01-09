@@ -1,49 +1,35 @@
 package demartini_F_Orario_01.bin;
 
-/**
- * The enum Packet error code.
- */
 public enum PacketErrorCode {
-    /**
-     * Nonexistent argument packet error code.
-     */
-    NONEXISTENT_ARGUMENT(1),
-    /**
-     * Registration error packet error code.
-     */
-    REGISTRATION_ERROR(2),
-    /**
-     * Timeout error packet error code.
-     */
-    TIMEOUT_ERROR(3);
+
+    DEFAULT(0, "Error."),
+    NONEXISTENT_ARGUMENT(1, "Non existent argument in the packet."),
+    REGISTRATION_ERROR(2, "The registration Fail."),
+    TIMEOUT_ERROR(3, "Timeout error, try to re-connect."),
+    MALFORMED_PACKET(4, "Packet invalid or malformed.");
 
     private final int errorCode;
+    private final String message;
 
-    PacketErrorCode(int errorInt) {
+    PacketErrorCode(int errorInt, String message) {
         errorCode = errorInt;
+        this.message = message;
     }
 
-    /**
-     * Find by value packet error code.
-     *
-     * @param intType the int type
-     * @return the packet error code
-     */
     public static PacketErrorCode findByValue(int intType) {
         for (PacketErrorCode packetErrorCode : values()) {
             if (packetErrorCode.getErrorCode() == intType) {
                 return packetErrorCode;
             }
         }
-        return null;
+        return DEFAULT;
     }
 
-    /**
-     * Gets error code.
-     *
-     * @return the error code
-     */
     public int getErrorCode() {
         return errorCode;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

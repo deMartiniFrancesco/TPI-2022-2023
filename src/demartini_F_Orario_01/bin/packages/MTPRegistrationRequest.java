@@ -6,28 +6,15 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-/**
- * The type Mtp registration request.
- */
 public class MTPRegistrationRequest extends MTPPacket {
 
     private final String name;
 
-    /**
-     * Instantiates a new Mtp registration request.
-     *
-     * @param dataByte the data byte
-     */
     public MTPRegistrationRequest(byte[] dataByte) {
         super(PacketOperationCode.REGISTRATION_REQUEST, dataByte.length, dataByte);
         name = new String(dataByte);
     }
 
-    /**
-     * Instantiates a new Mtp registration request.
-     *
-     * @param name the name
-     */
     public MTPRegistrationRequest(String name) {
         super(PacketOperationCode.REGISTRATION_REQUEST);
         this.name = name;
@@ -46,11 +33,6 @@ public class MTPRegistrationRequest extends MTPPacket {
         return outputStream.toByteArray();
     }
 
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
     public String getName() {
         return name;
     }

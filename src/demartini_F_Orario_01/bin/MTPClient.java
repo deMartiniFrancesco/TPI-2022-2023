@@ -2,38 +2,33 @@ package demartini_F_Orario_01.bin;
 
 import demartini_F_Orario_01.bin.packages.MTPPacket;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 
-/**
- * The type Mtp client.
- */
 public class MTPClient extends MTP {
 
-    /**
-     * Instantiates a new Mtp client.
-     *
-     * @param serverPort the server port
-     */
-    public MTPClient(int serverPort) {
-        super(serverPort);
+    private DataInputStream inputStream = null;
+    private DataOutputStream outputStream = null;
+
+    public MTPClient(int clientPort) {
+        super(clientPort);
     }
 
-    @Override
     public void connect(InetAddress targetAddress, int targetPort) {
-        super.connect(targetAddress, targetPort);
         try {
-            setUpStreams(activeConnectionSocket);
+            activeConnectionSocket = new Socket(targetAddress, targetPort);
+            inputStream = new DataInputStream(activeConnectionSocket.getInputStream());
+            outputStream = new DataOutputStream(activeConnectionSocket.getOutputStream());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return;
         }
+        isConnected = true;
     }
 
-    /**
-     * Send packet.
-     *
-     * @param packet the packet
-     */
     public void sendPacket(MTPPacket packet) {
         if (isConnected) {
             System.out.println("MTPClient.sendPacket");
