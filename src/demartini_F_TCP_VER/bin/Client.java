@@ -60,17 +60,17 @@ class Client {
         System.out.println("Reciving...");
         try {
             switch (inputStream.readByte()) {
-                case 51 -> {
-                    short length = inputStream.readShort();
-                    System.out.println(Arrays.toString(bytesToInts(inputStream.readNBytes(length))));
-                }
 
-                case 50, 53 -> {
+                case 50, 51 -> {
                     short length = inputStream.readShort();
                     System.out.println(new String(inputStream.readNBytes(length)));
                 }
                 case 52 -> {
                     return false;
+                }
+                case 53 -> {
+                    inputStream.readShort();
+                    System.out.println(inputStream.readInt());
                 }
                 case 54 -> System.out.println("Risposta positiva");
                 case 55 -> {
@@ -85,12 +85,6 @@ class Client {
         return true;
     }
 
-    private int[] bytesToInts(byte[] bytes) {
-        int[] ints = new int[bytes.length / 2];
-        ByteBuffer.wrap(bytes).asIntBuffer().get(ints);
-        return ints;
-    }
-
     private byte[] intTo2Byte(int num) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.writeBytes(
@@ -99,12 +93,6 @@ class Client {
         return outputStream.toByteArray();
     }
 
-
-    private byte[] trim(byte[] bytes) {
-        int i = bytes.length - 1;
-        while (i >= 0 && bytes[i] == 0) --i;
-        return Arrays.copyOf(bytes, i + 1);
-    }
 
 }
 
@@ -126,19 +114,19 @@ class Main {
             request = scanner.nextLine().toUpperCase();
             switch (request) {
                 case "A" -> {
-                    client.sendPacket(10, null);
+                    client.sendPacket(20, null);
                     client.recevePacket();
                 }
                 case "B" -> {
-                    client.sendPacket(11, null);
+                    client.sendPacket(21, null);
                     client.recevePacket();
                 }
                 case "C" -> {
-                    client.sendPacket(12, null);
+                    client.sendPacket(22, null);
                     client.recevePacket();
                 }
                 case "D" -> {
-                    client.sendPacket(13, null);
+                    client.sendPacket(23, null);
                     boolean other = client.recevePacket();
                     while (other) {
                         other = client.recevePacket();
@@ -148,12 +136,12 @@ class Main {
                     ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
                     System.out.println("Inserire l'indice della nota");
                     arrayOutputStream.writeBytes(ByteBuffer.allocate(2).putShort((short) Integer.parseInt(scanner.nextLine().trim())).array());
-                    client.sendPacket(14, arrayOutputStream.toByteArray());
+                    client.sendPacket(24, arrayOutputStream.toByteArray());
                 }
                 case "F" -> {
                     System.out.println("Inserire nuova nota da inserire");
                     String nota = scanner.nextLine().trim();
-                    client.sendPacket(15, nota.getBytes());
+                    client.sendPacket(25, nota.getBytes());
                 }
             }
             scanner.nextLine();
